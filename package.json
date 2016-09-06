@@ -19,7 +19,6 @@
   "homepage": "https://github.com/adityabhushan/geekchat#readme",
   "dependencies": {
     "node-static": "^0.7.8",
-    "now": "^0.22.0",
     "socket.io": "^1.4.8"
   }
 }
