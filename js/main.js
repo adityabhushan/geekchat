@@ -22,7 +22,7 @@ var sdpConstraints = {
   }
 };
 
-
+/////////////////////////////////////////////
 
 var room = 'foo';
 // Could prompt for room name:
@@ -59,7 +59,7 @@ socket.on('log', function(array) {
   console.log.apply(console, array);
 });
 
-
+////////////////////////////////////////////////
 
 function sendMessage(message) {
   console.log('Client sending message: ', message);
@@ -90,7 +90,7 @@ socket.on('message', function(message) {
   }
 });
 
-
+////////////////////////////////////////////////////
 
 var localVideo = document.querySelector('#localVideo');
 var remoteVideo = document.querySelector('#remoteVideo');
@@ -144,57 +144,57 @@ window.onbeforeunload = function() {
   sendMessage('bye');
 };
 
-
+/////////////////////////////////////////////////////////
 
 function createPeerConnection() {
   try {
-    pc= new RTCPeerConnection(null)
-    pc.onicecandidate = handleIceCandidate
-    pc.onaddstream = handleRemoteStreamAdded
-    pc.onremovestream = handleRemoteStreamRemoved
-    console.log('Created RTCPeerConnection')
+    pc = new RTCPeerConnection(null);
+    pc.onicecandidate = handleIceCandidate;
+    pc.onaddstream = handleRemoteStreamAdded;
+    pc.onremovestream = handleRemoteStreamRemoved;
+    console.log('Created RTCPeerConnnection');
   } catch (e) {
-    console.log('Failed to create PeerConnection, exception: ' +e.message)
-    alert('cannot create RTCPeerConnection object')
-    return
+    console.log('Failed to create PeerConnection, exception: ' + e.message);
+    alert('Cannot create RTCPeerConnection object.');
+    return;
   }
 }
 
 function handleIceCandidate(event) {
-  console.log('icecandiadte event: ', event )
-  if(event.candidate) {
+  console.log('icecandidate event: ', event);
+  if (event.candidate) {
     sendMessage({
       type: 'candidate',
       label: event.candidate.sdpMLineIndex,
       id: event.candidate.sdpMid,
       candidate: event.candidate.candidate
-    })
+    });
   } else {
-    console.log('End of candidates')
+    console.log('End of candidates.');
   }
 }
 
 function handleRemoteStreamAdded(event) {
-  console.log('Remote stream added')
-  remoteVideo.src = window.URL.createObjectURL(event.stream)
-  remoteStream = event.stream
+  console.log('Remote stream added.');
+  remoteVideo.src = window.URL.createObjectURL(event.stream);
+  remoteStream = event.stream;
 }
 
-function handleCreateOfferError(event){
-  console.log('createOffer() error: ', event)
+function handleCreateOfferError(event) {
+  console.log('createOffer() error: ', event);
 }
 
 function doCall() {
-  console.log('Sending offer to peer')
-  pc.createOffer(setLocalAndSendMessage, handleCreateOfferError)
+  console.log('Sending offer to peer');
+  pc.createOffer(setLocalAndSendMessage, handleCreateOfferError);
 }
 
 function doAnswer() {
-  console.log('Sending answer to peer')
+  console.log('Sending answer to peer.');
   pc.createAnswer().then(
     setLocalAndSendMessage,
     onCreateSessionDescriptionError
-    )
+  );
 }
 
 function setLocalAndSendMessage(sessionDescription) {
@@ -206,22 +206,22 @@ function setLocalAndSendMessage(sessionDescription) {
 }
 
 function onCreateSessionDescriptionError(error) {
-  trace('Failed to create session description: ' + error.toString())
+  trace('Failed to create session description: ' + error.toString());
 }
 
 function requestTurn(turnURL) {
-  var turnExists = false
+  var turnExists = false;
   for (var i in pcConfig.iceServers) {
-    if (pcConfig.iceServers[i].url.substr(0,5) === 'turn:') {
-      turnExists = true
-      turnReady = true
-      break
+    if (pcConfig.iceServers[i].url.substr(0, 5) === 'turn:') {
+      turnExists = true;
+      turnReady = true;
+      break;
     }
   }
-  if(!turnExists) {
-    console.log('Getting TURN server from ', turnURL)
+  if (!turnExists) {
+    console.log('Getting TURN server from ', turnURL);
     // No TURN server. Get one from computeengineondemand.appspot.com:
-    var xhr = new XMLHttpRequest()
+    var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
       if (xhr.readyState === 4 && xhr.status === 200) {
         var turnServer = JSON.parse(xhr.responseText);
@@ -239,33 +239,33 @@ function requestTurn(turnURL) {
 }
 
 function handleRemoteStreamAdded(event) {
-  console.log('Remote Stream Added.')
-  remoteVideo.src = window.URL.createObjectURL(event.stream)
-  remoteStream = event.stream
+  console.log('Remote stream added.');
+  remoteVideo.src = window.URL.createObjectURL(event.stream);
+  remoteStream = event.stream;
 }
 
 function handleRemoteStreamRemoved(event) {
-  console.log('Remote stream removed. Event: ', event)
+  console.log('Remote stream removed. Event: ', event);
 }
 
 function hangup() {
-  console.log('Hanging up')
-  stop()
-  sendMessage('bye')
+  console.log('Hanging up.');
+  stop();
+  sendMessage('bye');
 }
 
 function handleRemoteHangup() {
-  console.log('Session terminated')
-  stop()
-    isInitiator = false
+  console.log('Session terminated.');
+  stop();
+  isInitiator = false;
 }
 
 function stop() {
-  isStarted = false
+  isStarted = false;
   // isAudioMuted = false;
   // isVideoMuted = false;
-  pc.close()
-  pc = null
+  pc.close();
+  pc = null;
 }
 
 ///////////////////////////////////////////
