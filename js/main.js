@@ -209,7 +209,7 @@ function onCreateSessionDescriptionError(error) {
   trace('Failed to create session description: ' + error.toString())
 }
 
-function requestTurn(tunrURL) {
+function requestTurn(turnURL) {
   var turnExists = false
   for (var i in pcConfig.iceServers) {
     if (pcConfig.iceServers[i].url.substr(0,5) === 'turn:') {
