@@ -221,7 +221,7 @@ function requestTurn(turnURL) {
   if(!turnExists) {
     console.log('Getting TURN server from ', turnURL)
     // No TURN server. Get one from computeengineondemand.appspot.com:
-    var xhr = new XMLHTTPRequest()
+    var xhr = new XMLHttpRequest()
     xhr.onreadystatechange = function() {
       if (xhr.readyState === 4 && xhr.status === 200) {
         var turnServer = JSON.parse(xhr.responseText);
