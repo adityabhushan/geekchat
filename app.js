@@ -23,8 +23,7 @@ io.sockets.on('connection', function (socket) {
 
   socket.on('message', function (message) {
     log('client said: ', message)
-    // for a real app would be room-only (not broadcast)
-    socket.broadcast.emit('message', message)
+    socket.emit('message', message)
   })
 
   socket.on('create or join', function (room) {
@@ -45,10 +44,9 @@ io.sockets.on('connection', function (socket) {
       socket.join(room)
       socket.emit('joined', room, socket.id)
       io.sockets.in(room).emit('ready')
+    }else { // max two clients
+      socket.emit('full', room)
     }
-  // else { // max two clients
-  //   socket.emit('full', room)
-  // }
   })
 
   socket.on('ipaddr', function () {

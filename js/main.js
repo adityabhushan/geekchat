@@ -41,6 +41,7 @@ socket.on('created', function (room) {
 
 socket.on('full', function (room) {
   console.log('Room ' + room + ' is full')
+  isChannelReady = true
 })
 
 socket.on('join', function (room) {
