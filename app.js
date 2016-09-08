@@ -30,7 +30,9 @@ io.sockets.on('connection', function (socket) {
   socket.on('create or join', function (room) {
     log('Received request to create or join room ' + room)
 
-    var numClients = io.sockets.sockets.length
+    // var numClients = io.sockets.sockets.length
+    var srvSockets = io.sockets.sockets
+    var numClients = Object.keys(srvSockets).length
     log('Room ' + room + ' now has' + numClients + 'clients')
 
     if (numClients === 1) {
