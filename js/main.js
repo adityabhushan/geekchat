@@ -18,7 +18,6 @@ var pcConfig = {
   }]
 }
 
-// Set up audio and video regardless of what devices are present.
 var sdpConstraints = {
   'mandatory': {
     'OfferToReceiveAudio': true,
@@ -26,11 +25,7 @@ var sdpConstraints = {
   }
 }
 
-// ///////////////////////////////////////////
-
 var room = prompt('Enter room name:')
-// Could prompt for room name:
-// room = prompt('Enter room name:')
 
 var socket = io.connect()
 
@@ -95,7 +90,7 @@ var localVideo = document.querySelector('#localVideo')
 var remoteVideo = document.querySelector('#remoteVideo')
 
 navigator.mediaDevices.getUserMedia({
-  audio: false,
+  audio: true,
   video: true
 })
   .then(gotStream)
